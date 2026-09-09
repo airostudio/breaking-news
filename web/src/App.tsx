@@ -10,6 +10,7 @@ import Marketplace from "./pages/Marketplace";
 import Newsroom from "./pages/Newsroom";
 import NewsroomDetail from "./pages/NewsroomDetail";
 import NotFound from "./pages/NotFound";
+import Pricing from "./pages/Pricing";
 import Purchases from "./pages/Purchases";
 import Register from "./pages/Register";
 import Story from "./pages/Story";
@@ -23,6 +24,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Front />} />
           <Route path="/story/:id" element={<Story />} />
+          <Route path="/pricing" element={<Pricing />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 

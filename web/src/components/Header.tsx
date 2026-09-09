@@ -50,6 +50,7 @@ export default function Header() {
           <NavLink to="/" end>
             Front Page
           </NavLink>
+          <NavLink to="/pricing">Pricing</NavLink>
           {(!user || user.role === "contributor") && (
             <>
               <NavLink to="/upload">Upload</NavLink>
