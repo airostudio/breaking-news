@@ -26,7 +26,14 @@ media.get("/:key{.+}", async (c) => {
     .first<SubmissionRow>();
   if (!submission) return c.json({ error: "Not found" }, 404);
 
-  const isPreviewVariant = wantsPreview || key === submission.thumbnail_key;
+  // `thumbnail_key` currently equals `object_key` (no distinct preview asset
+  // is generated — see the file-level comment), so matching on the key alone
+  // cannot distinguish preview vs. full-res: it would always be true and
+  // defeat full-res gating entirely. The `?preview=1` query flag is the only
+  // signal for "preview" today; the key comparison only matters once a real
+  // pipeline gives thumbnail_key a genuinely distinct value.
+  const isPreviewVariant =
+    wantsPreview || (submission.thumbnail_key !== submission.object_key && key === submission.thumbnail_key);
   const isPubliclyListed = submission.status === "listed" || submission.status === "sold";
 
   const user: UserRow | null = await getUserFromRequest(c);
