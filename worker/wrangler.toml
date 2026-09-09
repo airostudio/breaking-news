@@ -1,0 +1,44 @@
+#:schema node_modules/wrangler/config-schema.json
+name = "bno-worker"
+main = "src/index.ts"
+compatibility_date = "2024-11-01"
+compatibility_flags = ["nodejs_compat"]
+
+# -----------------------------------------------------------------------------
+# Environment variables (non-secret). Override per-environment below, or set
+# secrets with `wrangler secret put SESSION_SECRET` for the real secret value.
+# -----------------------------------------------------------------------------
+[vars]
+# Frontend origin allowed via CORS. Use "*" for local dev; set to your deployed
+# frontend origin (e.g. "https://bno.news") in production.
+CORS_ORIGIN = "*"
+# Session token signing secret for DEV ONLY. In production, remove this line
+# and instead run: `wrangler secret put SESSION_SECRET`
+SESSION_SECRET = "dev-only-insecure-secret-change-me"
+
+# -----------------------------------------------------------------------------
+# D1 database binding.
+# 1. Run:  wrangler d1 create bno-db
+# 2. Copy the returned database_id into the placeholder below.
+# -----------------------------------------------------------------------------
+[[d1_databases]]
+binding = "DB"
+database_name = "bno-db"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"          # <-- fill in after `wrangler d1 create bno-db`
+migrations_dir = "migrations"
+
+# -----------------------------------------------------------------------------
+# R2 bucket binding for raw media (photos/video) storage.
+# 1. Run:  wrangler r2 bucket create bno-media
+# 2. Confirm the bucket name below matches (rename if you chose a different name).
+# -----------------------------------------------------------------------------
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "bno-media"                              # <-- fill in / confirm after `wrangler r2 bucket create bno-media`
+
+# -----------------------------------------------------------------------------
+# Cron trigger: closes expired auctions and settles the highest bidder.
+# Runs every 5 minutes. Adjust the cron expression as needed.
+# -----------------------------------------------------------------------------
+[triggers]
+crons = ["*/5 * * * *"]

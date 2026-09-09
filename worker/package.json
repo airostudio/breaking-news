@@ -1,0 +1,21 @@
+{
+  "name": "bno-worker",
+  "version": "1.0.0",
+  "private": true,
+  "description": "BNO (Breaking News Outlet) backend — Cloudflare Worker (Hono + D1 + R2)",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:migrate": "wrangler d1 migrations apply bno-db",
+    "db:migrate:remote": "wrangler d1 migrations apply bno-db --remote",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "hono": "^4.6.14"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241127.0",
+    "typescript": "^5.7.2",
+    "wrangler": "^3.99.0"
+  }
+}
